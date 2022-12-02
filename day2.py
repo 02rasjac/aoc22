@@ -1,4 +1,4 @@
-hand_value = {"A": 1, "B": 2, "C": 3}
+hand_value = [1, 2, 3] # Rock, Paper, Scissor
 player_score = 0
 
 with open("data/day2.txt") as f:
@@ -7,16 +7,13 @@ with open("data/day2.txt") as f:
         if not line: # End of file
             break
         elfe = line[0]
-        user = chr(ord(line[2]) - 23) # Convert user's hand to A, B, C for easier compairson
-        if user == elfe:
-            # points = 3 (draw) + points from hand (X becomes A when testing, ASCII-value of 65)
-            player_score += 3 + hand_value[user]
-        elif (user == "A" and elfe == "C") or (user == "B" and elfe == "A") or (user == "C" and elfe == "B"):
-            # Player wins
-            player_score += 6 + hand_value[user]
+        ending = line[2]
+        if ending == "X":
+            player_score += hand_value[ord(elfe) - 66] # Loss, index for score A is -1
+        elif ending == "Y":
+            player_score += 3 + hand_value[ord(elfe) - 65] # Draw, index for A is 0
         else:
-            # Player loses
-            player_score += hand_value[user]
+            player_score += 6 + hand_value[ord(elfe) - 67] # Win, index for score A is -2
 
 # Subtract 23 from user (X, Y, Z) to (a, b, c)
 # If same => draw
